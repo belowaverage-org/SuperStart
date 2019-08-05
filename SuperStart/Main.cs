@@ -19,7 +19,6 @@ namespace SuperStart
         private Timer PinTimer = new Timer();
         private Timer StartTimer = new Timer();
         private int StartTimerDelay = 0;
-        private int CountDown = 0;
         private Control Mdi = null;
         private Process StartedProcess = new Process();
         public Main()
@@ -31,26 +30,48 @@ namespace SuperStart
             PinTimer.Interval = StartTimer.Interval = 1000;
             PinTimer.Tick += PinTimer_Tick;
             StartTimer.Tick += StartTimer_Tick;
+            StartedProcess.EnableRaisingEvents = true;
+            StartedProcess.Exited += Process_Exited;
             StartedProcess.StartInfo.FileName = Config.Settings["StartProcess"];
             InitializeComponent();
         }
-
-        private async void StartTimer_Tick(object sender, EventArgs e)
+        private bool CheckForRunningProcess()
         {
-            if(--StartTimerDelay <= 0)
+            foreach (Process process in Process.GetProcesses())
+            {
+                if (process.ProcessName == Path.GetFileNameWithoutExtension(Config.Settings["StartProcess"]))
+                {
+                    StartTimer.Stop();
+                    process.EnableRaisingEvents = true;
+                    process.Exited += Process_Exited;
+                    Hide();
+                    return true;
+                }
+            }
+            return false;
+        }
+        private void StartTimer_Tick(object sender, EventArgs e)
+        {
+            CheckForRunningProcess();
+            if (--StartTimerDelay <= 0)
             {
                 StartTimer.Stop();
                 StartedProcess.Start();
                 Hide();
-                await Task.Run(() => {
-                    StartedProcess.WaitForExit();
-                });
-                StartTimerDelay = int.Parse(Config.Settings["RestartDelay"]);
-                StartTimer.Start();
-                Show();
+                return;
             }
-            CountDown = StartTimerDelay;
             Mdi.Invalidate(new Rectangle(10, 10, 50, 20));
+        }
+        private void Process_Exited(object sender, EventArgs e)
+        {
+            Invoke(new Action(() => {
+                if(!CheckForRunningProcess())
+                {
+                    Show();
+                    StartTimerDelay = int.Parse(Config.Settings["RestartDelay"]);
+                    StartTimer.Start();
+                }
+            }));
         }
         private void Main_Load(object sender, EventArgs e)
         {
@@ -74,15 +95,16 @@ namespace SuperStart
             {
                 Mdi.BackgroundImage = Image.FromFile(Config.Settings["BackgroundImage"]);
             }
-            StartTimer.Start();
+            if (!CheckForRunningProcess())
+            {
+                StartTimer.Start();
+            }
         }
-
         private void Control_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.DrawString(CountDown.ToString(), Font, Brushes.White, 10, 10);
+            g.DrawString(StartTimerDelay.ToString(), Font, Brushes.White, 10, 10);
         }
-
         private void Control_Click(object sender, EventArgs e)
         {
             if(!IsPinOpen)
@@ -94,6 +116,7 @@ namespace SuperStart
                 Pin.MdiParent = this;
                 Pin.Show();
                 PinTimer.Start();
+                StartTimer.Stop();
             }
         }
         private void PinTimer_Tick(object sender, EventArgs e)
@@ -106,6 +129,7 @@ namespace SuperStart
         }
         private void Pin_FormClosing(object sender, FormClosingEventArgs e)
         {
+            StartTimer.Start();
             PinTimer.Stop();
             IsPinOpen = false;
         }
