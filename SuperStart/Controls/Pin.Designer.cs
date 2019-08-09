@@ -251,8 +251,11 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Pin";
-            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.TopMost = true;
+            this.Load += new System.EventHandler(this.Pin_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Pin_KeyDown);
             this.DigitTable.ResumeLayout(false);
             this.ResumeLayout(false);
 

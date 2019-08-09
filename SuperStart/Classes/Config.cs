@@ -9,9 +9,15 @@ namespace SuperStart
     {
         public static Dictionary<string, string> Settings = new Dictionary<string, string>() {
             {"XComment0", "The process that will be launched."},
-            {"StartProcess", @"C:\Windows\System32\cmd.exe"},
+            {"StartProcessFileName", @"C:\Windows\System32\cmd.exe"},
+            {"StartProcessWorkingDirectory", @"C:\"},
+            {"StartProcessArguments", "/K echo Start Process"},
+            {"XComment8", "What to do if the start process wont start. Choices: StartExitProcessAndClose, DoNothing, KeepTrying, Close"},
+            {"StartProcessFailBehavior", "DoNothing"},
             {"XComment1", "The process that will be launched on exit."},
-            {"ExitProcess", @"C:\Windows\System32\cmd.exe"},
+            {"ExitProcessFileName", @"C:\Windows\System32\cmd.exe"},
+            {"ExitProcessWorkingDirectory", @"C:\"},
+            {"ExitProcessArguments", "/K echo Exit Process"},
             {"XComment2", "The delay that the program will be launched with the first time."},
             {"StartDelay", "1"},
             {"XComment3", "The delay that the program will be launched with the consecutive times."},
@@ -19,10 +25,10 @@ namespace SuperStart
             {"XComment4", "The image that will be shown full screen while the program is closed."},
             {"BackgroundImage", @"C:\Windows\Web\Screen\img100.jpg"},
             {"XComment5", "The message displayed when the PIN screen appears."},
-            {"UnlockMessage", "Enter Unlock PIN."},
+            {"UnlockMessage", "Enter Unlock PIN"},
             {"XComment6", "The PIN used to quit out after double clicking the background if the program is closed."},
             {"UnlockPin", "1234"},
-            {"XComment7", "The amount of time in seconds to enter the PIN."},
+            {"XComment7", "The amount of time in seconds to enter the PIN. (To disable timer, set to nothing or a string)"},
             {"UnlockTimeout", "10"}
         };
         public static void GenerateConfig()
@@ -39,17 +45,17 @@ namespace SuperStart
                     root.Add(new XElement(setting.Key, setting.Value));
                 }
             }
-            new XDocument(root).Save(@".\SuperStart.xml");
+            new XDocument(root).Save(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @".\SuperStart.xml"));
         }
         public static void LoadConfig()
         {
-            if (!File.Exists(@".\SuperStart.xml"))
+            if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @".\SuperStart.xml")))
             {
                 GenerateConfig();
             }
             try
             {
-                XDocument config = XDocument.Load(@".\SuperStart.xml");
+                XDocument config = XDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @".\SuperStart.xml"));
                 XElement root = config.Element("SuperStart");
                 Dictionary<string, string> xmlSettings = new Dictionary<string, string>();
                 foreach (KeyValuePair<string, string> setting in Settings)

@@ -23,20 +23,24 @@ namespace SuperStart
             lblDisplay.Focus();
             if (thisButton.Text == "Enter")
             {
-                if (pinBuffer != UnlockPin)
-                {
-                    Close();
-                }
-                else
-                {
-                    Application.ExitThread();
-                }
+                CheckPin();
             }
             else
             {
                 pinBuffer += thisButton.Text;
+                UpdateDisplay();
             }
-            UpdateDisplay();
+        }
+        private void CheckPin()
+        {
+            if (pinBuffer != UnlockPin)
+            {
+                Close();
+            }
+            else
+            {
+                Main.StartExitProcessAndClose();
+            }
         }
         private void UpdateDisplay()
         {
@@ -46,6 +50,25 @@ namespace SuperStart
                 starDisplay += '*';
             }
             lblDisplay.Text = starDisplay;
+        }
+        private void Pin_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+            int key;
+            if(int.TryParse(e.KeyCode.ToString().Replace("NumPad", "").Replace("D", ""), out key))
+            {
+                pinBuffer += key.ToString();
+                UpdateDisplay();
+            }
+            else if(e.KeyCode == Keys.Enter)
+            {
+                CheckPin();
+            }
+        }
+        private void Pin_Load(object sender, EventArgs e)
+        {
+            Icon = Properties.Resources.keys_5;
         }
     }
 }
