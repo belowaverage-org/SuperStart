@@ -17,10 +17,10 @@ namespace SuperStart
         private int RestartTimerDelay = int.Parse(Config.Settings["RestartDelay"]);
         private Process ProcessToStart = new Process();
         private static bool AllowClose = false;
-        public Main()
+        public Main(string[] parameters)
         {
             Form = this;
-            Config.LoadConfig();
+            Config.LoadConfig(parameters);
             int Delay;
             if (int.TryParse(Config.Settings["StartDelay"], out Delay))
             {

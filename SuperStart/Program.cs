@@ -12,9 +12,9 @@ namespace SuperStart
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] parameters)
         {
-            Application.Run(new Main());
+            Application.Run(new Main(parameters));
         }
     }
 }

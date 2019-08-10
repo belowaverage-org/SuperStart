@@ -47,7 +47,7 @@ namespace SuperStart
             }
             new XDocument(root).Save(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @".\SuperStart.xml"));
         }
-        public static void LoadConfig()
+        public static void LoadConfig(string[] parameters = null)
         {
             if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @".\SuperStart.xml")))
             {
@@ -72,6 +72,20 @@ namespace SuperStart
                 Settings = xmlSettings;
             }
             catch (Exception) { }
+            if (parameters != null && parameters.Length > 0)
+            {
+                foreach(string parameter in parameters)
+                {
+                    if(parameter.StartsWith("/") || parameter.StartsWith("-") && parameter.Contains(":"))
+                    {
+                        string[] param_parts = parameter.Substring(1).Split(':');
+                        if (Settings.ContainsKey(param_parts[0]))
+                        {
+                            Settings[param_parts[0]] = param_parts[1];
+                        }
+                    }
+                }
+            }
         }
     }
 }
