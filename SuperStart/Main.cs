@@ -92,7 +92,7 @@ namespace SuperStart
                 Hide();
                 return;
             }
-            if (TimerRemaining-- <= 0)
+            if (TimerRemaining <= 0)
             {
                 StartTimer.Stop();
                 try
@@ -134,6 +134,10 @@ namespace SuperStart
             {
                 Show();
                 WindowState = FormWindowState.Maximized;
+            }
+            if(TimerRemaining >= 0)
+            {
+                TimerRemaining--;
             }
             Background.Invalidate(new Rectangle(10, 10, 50, 20));
         }
