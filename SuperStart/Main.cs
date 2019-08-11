@@ -43,17 +43,19 @@ namespace SuperStart
             ProcessToStart.StartInfo.Arguments = Config.Settings["StartProcessArguments"];
             InitializeComponent();
         }
-        public static void StartExitProcessAndClose()
+        public async static void StartExitProcessAndClose()
         {
             if (File.Exists(Config.Settings["ExitProcessFileName"]) && Path.GetExtension(Config.Settings["ExitProcessFileName"]).ToLower() == ".exe")
             {
                 try
                 {
-                    Process ExitProcess = new Process();
-                    ExitProcess.StartInfo.FileName = Config.Settings["ExitProcessFileName"];
-                    ExitProcess.StartInfo.WorkingDirectory = Config.Settings["ExitProcessWorkingDirectory"];
-                    ExitProcess.StartInfo.Arguments = Config.Settings["ExitProcessArguments"];
-                    ExitProcess.Start();
+                    await Task.Run(() => {
+                        Process ExitProcess = new Process();
+                        ExitProcess.StartInfo.FileName = Config.Settings["ExitProcessFileName"];
+                        ExitProcess.StartInfo.WorkingDirectory = Config.Settings["ExitProcessWorkingDirectory"];
+                        ExitProcess.StartInfo.Arguments = Config.Settings["ExitProcessArguments"];
+                        ExitProcess.Start();
+                    });
                 }
                 catch (Exception e)
                 {
