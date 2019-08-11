@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace SuperStart
 {
@@ -85,7 +86,7 @@ namespace SuperStart
             }
             return false;
         }
-        private void StartTimer_Tick(object sender, EventArgs e)
+        private async void StartTimer_Tick(object sender, EventArgs e)
         {
             if(StartProcessIsRunning())
             {
@@ -97,7 +98,9 @@ namespace SuperStart
                 StartTimer.Stop();
                 try
                 {
-                    ProcessToStart.Start();
+                    await Task.Run(() => {
+                        ProcessToStart.Start();
+                    });
                     Hide();
                     return;
                 }
