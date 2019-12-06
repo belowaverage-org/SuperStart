@@ -114,6 +114,7 @@ namespace SuperStart
                 }
                 catch(Exception exc)
                 {
+                    ProcessIsStarting = false;
                     Console.WriteLine("Failed to start process: ");
                     Console.WriteLine(exc.Message);
                     switch (Config.Settings["StartProcessFailBehavior"])
