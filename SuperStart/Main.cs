@@ -72,7 +72,6 @@ namespace SuperStart
             {
                 if (process.ProcessName == Path.GetFileNameWithoutExtension(Config.Settings["StartProcessFileName"]))
                 {
-                    StartTimer.Stop();
                     try
                     {
                         process.EnableRaisingEvents = true;
@@ -92,6 +91,7 @@ namespace SuperStart
         {
             if(StartProcessIsRunning())
             {
+                StartTimer.Stop();
                 Hide();
                 return;
             }
