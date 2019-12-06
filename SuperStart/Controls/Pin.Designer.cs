@@ -244,7 +244,7 @@
             // Pin
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(376, 429);
             this.Controls.Add(this.lblDisplay);
             this.Controls.Add(this.DigitTable);

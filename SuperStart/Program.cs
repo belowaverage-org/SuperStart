@@ -14,6 +14,7 @@ namespace SuperStart
         [STAThread]
         static void Main(string[] parameters)
         {
+            Application.EnableVisualStyles();
             Application.Run(new Main(parameters));
         }
     }
