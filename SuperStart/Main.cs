@@ -10,9 +10,9 @@ namespace SuperStart
     public partial class Main : Form
     {
         public static Form Form = null;
+        public static Timer PinTimer = new Timer();
         private bool IsPinOpen = false;
         private Pin Pin = null;
-        private Timer PinTimer = new Timer();
         private Timer StartTimer = new Timer();
         private int TimerRemaining = int.Parse(Config.Settings["StartDelay"]);
         private int RestartTimerDelay = int.Parse(Config.Settings["RestartDelay"]);
@@ -93,6 +93,7 @@ namespace SuperStart
             {
                 StartTimer.Stop();
                 Hide();
+                Enabled = false;
                 return;
             }
             if (TimerRemaining <= 0)
@@ -104,6 +105,7 @@ namespace SuperStart
                         ProcessToStart.Start();
                     });
                     Hide();
+                    Enabled = false;
                     return;
                 }
                 catch(Exception exc)
@@ -137,6 +139,7 @@ namespace SuperStart
             }
             else if(!Visible || WindowState == FormWindowState.Minimized)
             {
+                Enabled = true;
                 Show();
                 WindowState = FormWindowState.Maximized;
             }

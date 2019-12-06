@@ -13,10 +13,6 @@ namespace SuperStart
             InitializeComponent();
             lblDisplay.Text = UnlockMessage;
         }
-        private void TopTimer_Tick(object sender, EventArgs e)
-        {
-            BringToFront();
-        }
         private void Btn_Click(object sender, EventArgs e)
         {
             Button thisButton = (Button)sender;
@@ -39,6 +35,10 @@ namespace SuperStart
             }
             else
             {
+                Main.PinTimer.Stop();
+                Enabled = false;
+                ControlBox = false;
+                lblDisplay.Text = "Exiting Super Start...";
                 Main.StartExitProcessAndClose();
             }
         }
