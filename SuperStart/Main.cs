@@ -18,6 +18,7 @@ namespace SuperStart
         private int RestartTimerDelay = int.Parse(Config.Settings["RestartDelay"]);
         private Process ProcessToStart = new Process();
         private static bool AllowClose = false;
+        private bool ProcessIsStarting = false;
         public Main(string[] parameters)
         {
             Form = this;
@@ -101,10 +102,13 @@ namespace SuperStart
                 StartTimer.Stop();
                 try
                 {
+                    ProcessIsStarting = true;
+                    Background.Invalidate(new Rectangle(10, 10, 100, 20));
                     await Task.Run(() => {
                         ProcessToStart.Start();
                     });
                     Hide();
+                    ProcessIsStarting = false;
                     Enabled = false;
                     return;
                 }
@@ -209,7 +213,14 @@ namespace SuperStart
         private void Background_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.DrawString((TimerRemaining + 1).ToString(), Font, Brushes.White, 10, 10);
+            if(ProcessIsStarting)
+            {
+                g.DrawString("Starting...", Font, Brushes.White, 10, 10);
+            }
+            else
+            {
+                g.DrawString((TimerRemaining + 1).ToString(), Font, Brushes.White, 10, 10);
+            }
         }
     }
 }
