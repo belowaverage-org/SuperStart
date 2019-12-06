@@ -154,7 +154,7 @@ namespace SuperStart
             {
                 TimerRemaining--;
             }
-            Background.Invalidate(new Rectangle(10, 10, 50, 20));
+            Background.Invalidate(new Rectangle(10, 10, 100, 20));
         }
         private void Invoke_Relaunch_Timeout(object sender, EventArgs e)
         {
