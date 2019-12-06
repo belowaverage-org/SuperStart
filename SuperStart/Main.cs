@@ -121,6 +121,8 @@ namespace SuperStart
                     {
                         case "StartExitProcessAndClose":
                             {
+                                ProcessIsStarting = true;
+                                Background.Invalidate(new Rectangle(10, 10, 100, 20));
                                 StartExitProcessAndClose();
                                 break;
                             }
