@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("Dylan Bickerstaff")]
 [assembly: AssemblyCompany("Dylan Bickerstaff")]
 [assembly: AssemblyProduct("Super Start")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("Dylan Bickerstaff")]
 [assembly: AssemblyCulture("")]
 
