@@ -63,9 +63,9 @@ namespace SuperStart.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon keys_5 {
+        internal static System.Drawing.Icon logo {
             get {
-                object obj = ResourceManager.GetObject("keys_5", resourceCulture);
+                object obj = ResourceManager.GetObject("logo", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

@@ -68,7 +68,7 @@ namespace SuperStart
         }
         private void Pin_Load(object sender, EventArgs e)
         {
-            Icon = Properties.Resources.keys_5;
+            Icon = Properties.Resources.logo;
         }
     }
 }

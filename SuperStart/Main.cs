@@ -166,7 +166,7 @@ namespace SuperStart
         }
         private void Main_Load(object sender, EventArgs e)
         {
-            Icon = Properties.Resources.keys_5;
+            Icon = Properties.Resources.logo;
             if (File.Exists(Config.Settings["BackgroundImage"]))
             {
                 Background.Image = Image.FromFile(Config.Settings["BackgroundImage"]);
